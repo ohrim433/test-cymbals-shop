@@ -18,8 +18,8 @@ const {configureCors, setupDB} = require('./helpers');
 const {userRouter} = require('./routes');
 
 const serverRequestLimit = rateLimit({
-    windowMs: 10000,
-    max: 100 // TODO
+    windowMs: config.serverRateLimits.period,
+    max: config.serverRateLimits.maxRequests
 });
 
 const app = express();
@@ -51,7 +51,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(appRoot, 'public')));
 
-// TODO router
 // app.use('/admin', adminRouter);
 // app.use('/auth', authRouter);
 // app.use('/product', productRouter);

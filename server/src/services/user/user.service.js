@@ -6,6 +6,10 @@ class UserService {
 
         return userToCreate.save();
     }
+
+    findOneByParams(params) {
+        return UserModel.findOne(params);
+    }
 }
 
 module.exports = new UserService();
