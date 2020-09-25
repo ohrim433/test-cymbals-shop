@@ -33,4 +33,4 @@ module.exports = {
     ROOT_EMAIL_SERVICE: process.env.ROOT_EMAIL_SERVICE || 'gmail',
 
     SUPPORT_EMAIL: process.env.SUPPORT_EMAIL || 'mail'
-}
+};
