@@ -1,0 +1,7 @@
+extends server/src/email-templates/templates
+block content
+    div
+        | Welcome to Cymbals Shop!
+        | To confirm your account click the button below
+        div
+            a(href=frontendUrl + `email/confirm/#{token}`) Confirm your account
