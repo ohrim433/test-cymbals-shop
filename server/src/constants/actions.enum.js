@@ -1,3 +1,3 @@
 module.exports = {
-    USER_REGISTER: 0
+    USER_REGISTER: 'user_register'
 };
