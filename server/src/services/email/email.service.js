@@ -38,9 +38,6 @@ class EmailService {
     async sendEmail(email, action, context) {
         const templateInfo = htmlTemplates[action];
 
-        console.log(config.ROOT_EMAIL);
-        console.log(config.ROOT_EMAIL_PASSWORD);
-
         if (!templateInfo) {
             throw new ErrorHandler(500, 'Template not found');
         }
