@@ -13,7 +13,11 @@ const UserSchema = new Schema({
     gender: {type: String},
     createdAt: {type: Date, default: Date.now()},
     photo: {type: String},
-    status: {type: String, required: true, default: UserStatusEnum.PENDING}
+    status: {type: String, required: true, default: UserStatusEnum.PENDING},
+    tokens: [{
+        token: {type: String},
+        action: {type: String}
+    }]
 });
 
 module.exports = model('user', UserSchema);
