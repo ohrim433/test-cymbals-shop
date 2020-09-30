@@ -7,5 +7,6 @@ const router = Router();
 
 router.post('/', checkIsEmailExistsMiddleware, userController.createUser);
 router.post('/confirm', checkConfirmTokenMiddleware, userController.confirmUser);
+router.post('/password/forgot', userController.confirmUser);
 
 module.exports = router;

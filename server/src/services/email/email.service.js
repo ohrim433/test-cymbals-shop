@@ -4,6 +4,7 @@ const EmailTemplates = require('email-templates');
 
 const {config} = require('../../config');
 
+const {ResponseStatusCodesEnum} = require('../../constants');
 const {ErrorHandler} = require('../../errors');
 const {htmlTemplates} = require('../../email-templates');
 
@@ -39,7 +40,7 @@ class EmailService {
         const templateInfo = htmlTemplates[action];
 
         if (!templateInfo) {
-            throw new ErrorHandler(500, 'Template not found');
+            throw new ErrorHandler(ResponseStatusCodesEnum.SERVER, 'Template not found');
         }
 
         Object.assign(context, contextExtension);
