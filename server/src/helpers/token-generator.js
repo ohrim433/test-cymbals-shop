@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const {ActionsEnum} = require('../constants');
+const {ActionsEnum, ResponseStatusCodesEnum} = require('../constants');
 const {ErrorHandler} = require('../errors');
 const {config} = require('../config');
 
@@ -17,7 +17,7 @@ module.exports = (action) => {
             break;
 
         default:
-            throw new ErrorHandler(500, 'Wrong action type');
+            throw new ErrorHandler(ResponseStatusCodesEnum.SERVER, 'Wrong action type');
     }
 
     return {

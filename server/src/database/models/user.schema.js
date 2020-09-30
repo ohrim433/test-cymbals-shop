@@ -1,6 +1,6 @@
 const {model, Schema} = require('mongoose');
 
-const {UserRolesEnum, UserStatusEnum} = require('../../constants');
+const {TableNamesEnum, UserRolesEnum, UserStatusEnum} = require('../../constants');
 
 const UserSchema = new Schema({
     name: {type: String, required: true},
@@ -11,13 +11,15 @@ const UserSchema = new Schema({
     age: {type: Number, required: true},
     phone: {type: String},
     gender: {type: String},
-    createdAt: {type: Date, default: Date.now()},
     photo: {type: String},
     status: {type: String, required: true, default: UserStatusEnum.PENDING},
     tokens: [{
         token: {type: String},
         action: {type: String}
     }]
+},
+{
+    timestamps: true
 });
 
-module.exports = model('user', UserSchema);
+module.exports = model(TableNamesEnum.USER, UserSchema);

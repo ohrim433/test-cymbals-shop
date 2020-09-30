@@ -1,7 +1,7 @@
 const {hashPassword, tokenGenerator} = require('../../helpers');
 const {newUserValidationSchema} = require('../../validators');
-const {emailService, userService} = require('../../services');
-const {ActionsEnum, ResponseStatusCodesEnum, UserStatusEnum} = require('../../constants');
+const {emailService, logService, userService} = require('../../services');
+const {ActionsEnum, LogEnum, RequestHeadersEnum, ResponseStatusCodesEnum, UserStatusEnum} = require('../../constants');
 const {ErrorHandler, customErrors} = require('../../errors');
 
 class UserController {
@@ -20,12 +20,14 @@ class UserController {
 
         await userService.addActionToken(_id, {action: ActionsEnum.USER_REGISTER, token: accessToken});
         await emailService.sendEmail(user.email, ActionsEnum.USER_REGISTER, {token: accessToken});
+        await logService.createLog({event: LogEnum.USER_REGISTERED, userId: _id});
 
-        res.sendStatus(201);
+        res.sendStatus(ResponseStatusCodesEnum.CREATED);
     }
 
     async confirmUser(req, res, next) {
-        const {_id, status} = req.user;
+        const {_id, status, tokens = []} = req.user;
+        const tokenToDelete = req.get(RequestHeadersEnum.AUTHORIZATION);
 
         if (status !== UserStatusEnum.PENDING) {
             return next(new ErrorHandler(
@@ -36,6 +38,16 @@ class UserController {
         }
 
         await userService.updateUserByParams({_id}, {status: UserStatusEnum.CONFIRMED});
+
+        const index = tokens.findIndex((
+            {action, token}) => token === tokenToDelete && action === ActionsEnum.USER_REGISTER
+        );
+
+        if (index !== -1) {
+            tokens.splice(index, 1);
+            await userService.updateUserByParams({_id}, {tokens});
+            await logService.createLog({event: LogEnum.USER_CONFIRMED, userId: _id});
+        }
 
         res.end();
     }
