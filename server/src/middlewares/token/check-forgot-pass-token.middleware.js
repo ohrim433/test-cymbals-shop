@@ -15,11 +15,11 @@ module.exports = async (req, res, next) => {
         );
     }
 
-    const isTokenValid = await tokenVerificator(ActionsEnum.USER_REGISTER, token);
+    const isTokenValid = await tokenVerificator(ActionsEnum.FORGOT_PASSWORD, token);
 
-    console.log(isTokenValid);
+    console.log(isTokenValid); // TODO
 
-    const userByToken = await userService.findUserByActionToken(ActionsEnum.USER_REGISTER, token);
+    const userByToken = await userService.findUserByActionToken(ActionsEnum.FORGOT_PASSWORD, token);
 
     if (!userByToken) {
         return next(

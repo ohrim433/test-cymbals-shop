@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
     const {email} = req.body;
     const userByEmail = await userService.findOneByParams({email});
 
-    if (userByEmail) {
+    if (!userByEmail) {
         return next(new ErrorHandler(
             ResponseStatusCodesEnum.NOT_FOUND,
             customErrors.NOT_FOUND.message
