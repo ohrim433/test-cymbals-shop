@@ -9,9 +9,9 @@ class UserService {
         return userToCreate.save();
     }
 
-    addActionToken(id, tokenObject) {
+    addActionToken(userId, tokenObject) {
         return UserModel.update(
-            {_id: Types.ObjectId(id)},
+            {_id: Types.ObjectId(userId)},
             {
                 $push: {
                     tokens: tokenObject

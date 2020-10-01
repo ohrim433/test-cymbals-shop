@@ -1,17 +1,11 @@
 const {hashPassword, tokenGenerator} = require('../../helpers');
-const {newUserValidationSchema} = require('../../validators');
 const {emailService, logService, userService} = require('../../services');
 const {ActionsEnum, LogEnum, RequestHeadersEnum, ResponseStatusCodesEnum, UserStatusEnum} = require('../../constants');
 const {ErrorHandler, customErrors} = require('../../errors');
 
 class UserController {
-    async createUser(req, res, next) {
+    async createUser(req, res) {
         const user = req.body;
-        const {error} = newUserValidationSchema.validate(user);
-
-        if (error) {
-            return next(new Error(error.details[0].message));
-        }
 
         user.password = await hashPassword(user.password);
 
@@ -47,6 +41,36 @@ class UserController {
             tokens.splice(index, 1);
             await userService.updateUserByParams({_id}, {tokens});
             await logService.createLog({event: LogEnum.USER_CONFIRMED, userId: _id});
+        }
+
+        res.end();
+    }
+
+    async forgotPassword(req, res) {
+        const {_id, email} = req.user;
+        const {accessToken} = tokenGenerator(ActionsEnum.FORGOT_PASSWORD);
+
+        await userService.addActionToken(_id, {token: accessToken, action: ActionsEnum.FORGOT_PASSWORD});
+        await emailService.sendEmail(email, ActionsEnum.FORGOT_PASSWORD, {token: accessToken});
+
+        res.end();
+    }
+
+    async setForgotPassword(req, res) {
+        const {_id, tokens = []} = req.user;
+        const {password} = req.body;
+        const tokenToDelete = req.get(RequestHeadersEnum.AUTHORIZATION);
+        const hashedPassword = await hashPassword(password);
+
+        await userService.updateUserByParams({_id}, {password: hashedPassword});
+
+        const index = tokens.findIndex((
+            {action, token}) => token === tokenToDelete && action === ActionsEnum.FORGOT_PASSWORD
+        );
+
+        if (index !== -1) {
+            tokens.splice(index, 1);
+            await userService.updateUserByParams({_id}, {tokens});
         }
 
         res.end();
