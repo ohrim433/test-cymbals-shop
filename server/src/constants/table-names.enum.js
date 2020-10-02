@@ -1,4 +1,5 @@
 module.exports = {
     LOGS: 'logs',
-    USER: 'users'
+    USER: 'users',
+    PRODUCT: 'product'
 };

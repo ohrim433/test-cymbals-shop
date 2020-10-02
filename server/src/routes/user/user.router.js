@@ -4,7 +4,7 @@ const {
     checkConfirmTokenMiddleware,
     checkForgotPasswordTokenMiddleware,
     checkIsEmailExistsMiddleware,
-    checkIsUserExistsMiddleware,
+    checkIsUserExistsByEmailMiddleware,
     checkIsUserValidMiddleware,
     emailValidationMiddleware,
     singlePasswordValidationMiddleware
@@ -22,7 +22,7 @@ router.post(
 router.post(
     '/password/forgot',
     emailValidationMiddleware,
-    checkIsUserExistsMiddleware,
+    checkIsUserExistsByEmailMiddleware,
     userController.forgotPassword
 );
 router.post(

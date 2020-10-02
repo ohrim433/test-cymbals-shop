@@ -1,9 +1,11 @@
-const userService = require('./user/user.service');
 const emailService = require('./email/email.service');
 const logService = require('./log/log.service');
+const productService = require('./product/product.service');
+const userService = require('./user/user.service');
 
 module.exports = {
-    userService,
     emailService,
-    logService
+    logService,
+    productService,
+    userService
 };
