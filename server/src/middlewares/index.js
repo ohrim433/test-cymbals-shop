@@ -3,7 +3,6 @@ module.exports.checkConfirmTokenMiddleware = require('./token/check-confirm-toke
 module.exports.checkForgotPasswordTokenMiddleware = require('./token/check-forgot-pass-token.middleware');
 module.exports.checkIsEmailExistsMiddleware = require('./user/check-is-email-exists.middleware');
 module.exports.checkIsUserConfirmedMiddleware = require('./user/check-is-user-confirmed.middleware');
-module.exports.checkIsUserExistsMiddleware = require('./user/check-is-user-exists.middleware');
 module.exports.checkIsUserExistsByEmailMiddleware = require('./user/check-is-user-exists-by-email.middleware');
 module.exports.checkIsUserExistsByTokenMiddleware = require('./user/check-is-user-exists-by-token.middleware');
 module.exports.checkIsUserValidMiddleware = require('./user/check-is-user-valid.middleware');

@@ -32,7 +32,7 @@ app.use(express.static(path.join(appRoot, 'public')));
 
 // app.use('/admin', adminRouter);
 app.use('/auth', authRouter);
-app.use('/product', productRouter);
+app.use('/products', productRouter);
 app.use('/users', userRouter);
 
 function customErrorHandler(err, req, res, next) {
