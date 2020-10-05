@@ -1,24 +1,26 @@
-// const {verify, VerifyErrors} = require('jsonwebtoken');
-const jwt = require('jsonwebtoken');
+const {verify} = require('jsonwebtoken');
 const {promisify} = require('util');
 
 const {ActionsEnum, ResponseStatusCodesEnum} = require('../constants');
-const {ErrorHandler} = require('../errors');
+const {customErrors, ErrorHandler} = require('../errors');
 const {config} = require('../config');
 
-// const verifyPromise = promisify(verify);
-const verify = promisify(jwt.verify);
+const verifyPromise = promisify(verify);
 module.exports = async (action, token) => {
     try {
         let isTokenValid;
 
         switch (action) {
+            case ActionsEnum.USER_AUTH:
+                isTokenValid = await verifyPromise(token, config.JWT_SECRET);
+                break;
+
             case ActionsEnum.USER_REGISTER:
-                isTokenValid = await verify(token, config.JWT_CONFIRM_EMAIL_SECRET);
+                isTokenValid = await verifyPromise(token, config.JWT_CONFIRM_EMAIL_SECRET);
                 break;
 
             case ActionsEnum.FORGOT_PASSWORD:
-                isTokenValid = await verify(token, config.JWT_PASS_RESET_SECRET);
+                isTokenValid = await verifyPromise(token, config.JWT_PASS_RESET_SECRET);
                 break;
 
             default:
@@ -27,6 +29,9 @@ module.exports = async (action, token) => {
 
         return isTokenValid;
     } catch (e) {
-        throw new ErrorHandler(ResponseStatusCodesEnum.UNAUTHORIZED, 'todo - change this message');
+        throw new ErrorHandler(
+            ResponseStatusCodesEnum.UNAUTHORIZED,
+            customErrors.UNAUTHORIZED_BAD_TOKEN.message
+        );
     }
 };

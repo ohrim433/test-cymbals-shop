@@ -1,7 +1,9 @@
-const {userRouter} = require('./user');
-const {productRouter} = require('./product');
+const authRouter = require('./auth/auth.router');
+const userRouter = require('./user/user.router');
+const productRouter = require('./product/product.router');
 
 module.exports = {
-    userRouter,
-    productRouter
+    authRouter,
+    productRouter,
+    userRouter
 };

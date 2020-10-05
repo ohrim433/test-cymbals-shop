@@ -9,7 +9,7 @@ const path = require('path');
 const {config} = require('./config');
 const {ResponseStatusCodesEnum} = require('./constants');
 const {configureCors, setupDB} = require('./helpers');
-const {userRouter, productRouter} = require('./routes');
+const {authRouter, productRouter, userRouter} = require('./routes');
 
 const serverRequestLimit = rateLimit({
     windowMs: config.serverRateLimits.period,
@@ -31,7 +31,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(appRoot, 'public')));
 
 // app.use('/admin', adminRouter);
-// app.use('/auth', authRouter);
+app.use('/auth', authRouter);
 app.use('/product', productRouter);
 app.use('/users', userRouter);
 
