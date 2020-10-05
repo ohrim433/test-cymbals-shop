@@ -14,6 +14,18 @@ module.exports = {
         message: 'Token is not present'
     },
 
+    //401
+
+    UNAUTHORIZED_BAD_TOKEN: {
+        message: 'Something wrong with token'
+    },
+
+    //403
+    FORBIDDEN_USER_NOT_CONFIRMED: {
+        message: 'User is not confirmed',
+        code: 4031
+    },
+
     //404
     NOT_FOUND: {
         message: 'Record not found'
