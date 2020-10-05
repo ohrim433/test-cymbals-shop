@@ -4,7 +4,7 @@ const {authController} = require('../../controllers');
 const {
     checkAccessTokenMiddleware,
     checkIsUserConfirmedMiddleware,
-    checkIsUserExistsMiddleware,
+    checkIsUserExistsByEmailMiddleware,
     emailPasswordValidationMiddleware
 } = require('../../middlewares');
 
@@ -13,7 +13,7 @@ const router = Router();
 router.post(
     '/',
     emailPasswordValidationMiddleware,
-    checkIsUserExistsMiddleware,
+    checkIsUserExistsByEmailMiddleware,
     checkIsUserConfirmedMiddleware,
     authController.authUser
 );

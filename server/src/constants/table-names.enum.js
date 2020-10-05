@@ -1,5 +1,6 @@
 module.exports = {
+    ACCESS_TOKEN: 'access_tokens',
     LOGS: 'logs',
-    USER: 'users',
-    ACCESS_TOKEN: 'access_tokens'
+    PRODUCT: 'products',
+    USER: 'users'
 };
