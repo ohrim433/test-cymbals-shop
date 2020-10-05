@@ -1,6 +1,6 @@
 const {customErrors, ErrorHandler} = require('../../errors');
 const {ActionsEnum, RequestHeadersEnum, ResponseStatusCodesEnum} = require('../../constants');
-const {userService} = require('../../services');
+const {authService} = require('../../services');
 const {tokenVerificator} = require('../../helpers');
 
 module.exports = async (req, res, next) => {
@@ -16,9 +16,9 @@ module.exports = async (req, res, next) => {
             );
         }
 
-        await tokenVerificator(ActionsEnum.USER_REGISTER, token);
+        await tokenVerificator(ActionsEnum.USER_AUTH, token);
 
-        const userByToken = await userService.findUserByActionToken(ActionsEnum.USER_REGISTER, token);
+        const userByToken = await authService.findUserByToken({accessToken: token});
 
         if (!userByToken) {
             return next(

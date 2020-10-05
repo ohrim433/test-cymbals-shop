@@ -6,9 +6,20 @@ const {config} = require('../config');
 
 module.exports = (action) => {
     let accessToken = '';
-    const refreshToken = '';
+    let refreshToken = '';
 
     switch (action) {
+        case ActionsEnum.USER_AUTH:
+            accessToken = jwt.sign(
+                {},
+                config.JWT_SECRET,
+                {expiresIn: config.ACCESS_TOKEN_LIFETIME});
+            refreshToken = jwt.sign(
+                {},
+                config.JWT_REFRESH_SECRET,
+                {expiresIn: config.REFRESH_TOKEN_LIFETIME});
+            break;
+
         case ActionsEnum.USER_REGISTER:
             accessToken = jwt.sign(
                 {},
